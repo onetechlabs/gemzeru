@@ -14,6 +14,13 @@ class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // Add your onPressed code here!
+        },
+        child: Icon(Icons.edit),
+        backgroundColor: Colors.green,
+      ),
       body: SingleChildScrollView(
         child: Container(
           width: MediaQuery.of(context).size.width,
@@ -179,6 +186,7 @@ class _ProfileState extends State<Profile> {
               _listTransaction("Koin Masuk", "22 Ags 2020, 07:00 WIB","Anda Menambahkan ${random.nextInt(10).toString()} Koin"),
               _listTransaction("Koin keluar", "22 Ags 2020, 11:00 WIB","Anda Mengeluarkan ${random.nextInt(10).toString()} Koin"),
               _listTransaction("Koin Keluar", "22 Ags 2020, 14:00 WIB","Anda Mengeluarkan ${random.nextInt(10).toString()} Koin"),
+
             ],
           ),
         ),
