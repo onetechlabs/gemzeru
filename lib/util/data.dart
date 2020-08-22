@@ -35,3 +35,19 @@ List posts = List.generate(
           "gameName": "${gameName[random.nextInt(3)]}",
           "desc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sed nibh at turpis tincidunt sodales. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Curabitur a dignissim lectus. Duis tempor velit ut feugiat sollicitudin."
         });
+
+
+class ProfileData {
+  static String idGoogle;
+  static String photourlGoogle;
+  static String emailGoogle;
+  static String displaynameGoogle;
+  static String id;
+  static String gameCode;
+  static String fullName;
+  static String address;
+  static String phone;
+  static String token;
+  static String status_active;
+  static String registered_at;
+}

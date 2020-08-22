@@ -1,14 +1,14 @@
 import 'dart:async';
 import 'dart:math';
-import 'dart:convert' show json;
+import 'dart:convert' as convert;
 import 'package:carousel_slider/carousel_slider.dart';
-import "package:http/http.dart" as http;
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:gemzeru/screens/auth/google_sign_in.dart';
 import 'package:gemzeru/util/const.dart';
 import 'package:gemzeru/screens/main_screen.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:gemzeru/util/data.dart';
 
 GoogleSignIn _googleSignIn = GoogleSignInBaseConfig.GoogleSignInVar;
 
@@ -46,6 +46,7 @@ class SignInState extends State<SignIn> {
 
   GoogleSignInAccount _currentUser;
   final random = new Random();
+
   @override
   void initState() {
     super.initState();
@@ -58,12 +59,54 @@ class SignInState extends State<SignIn> {
     });
     _googleSignIn.signInSilently();
   }
+
+  Future<void> postProfile(String token, String id) async{
+    final response = await http.post(Constants.backend_api+"member/show/"+id, body: {'token': token,});
+    setState(() {
+      if (response.statusCode == 200) {
+        var jsonResponse = convert.jsonDecode(response.body);
+        var dataGamecode = jsonResponse['data']['record'][0]['gamecode'];
+        var dataFullname = jsonResponse['data']['record'][0]['fullname'];
+        var dataAddress = jsonResponse['data']['record'][0]['address'];
+        var dataPhone = jsonResponse['data']['record'][0]['phone'];
+        var dataStatus_active = jsonResponse['data']['record'][0]['status_active'];
+        var dataCreatedat = jsonResponse['data']['record'][0]['created_at'];
+        ProfileData.gameCode=dataGamecode.toString();
+        ProfileData.fullName=dataFullname.toString();
+        ProfileData.address=dataAddress.toString();
+        ProfileData.phone=dataPhone.toString();
+        ProfileData.status_active=dataStatus_active.toString();
+        ProfileData.registered_at=dataCreatedat.toString();
+        print(jsonResponse);
+      } else {
+        print('Request failed with status: ${response.statusCode}.');
+      }
+    });
+  }
+
+  Future<void> postLogin(String email) async{
+    final response = await http.post(Constants.backend_api+"member-login", body: {'email': email,});
+    setState(() {
+      if (response.statusCode == 200) {
+        var jsonResponse = convert.jsonDecode(response.body);
+        var dataId = jsonResponse['result']['user_id'];
+        var dataToken = jsonResponse['result']['token'];
+        ProfileData.id=dataId.toString();
+        ProfileData.token=dataToken.toString();
+      } else {
+        print('Request failed with status: ${response.statusCode}.');
+      }
+    });
+  }
+
   Future<void> saveData(id_g,em_g,dn_g,pu_g) async{
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString("id_google", id_g);
-    prefs.setString("email_google", em_g);
-    prefs.setString("displayname_google", dn_g);
-    prefs.setString("photourl_google", pu_g);
+    ProfileData.idGoogle=_currentUser.id;
+    ProfileData.photourlGoogle=_currentUser.photoUrl;
+    ProfileData.emailGoogle=_currentUser.email;
+    ProfileData.displaynameGoogle=_currentUser.displayName;
+
+    await postLogin(_currentUser.email);
+    await postProfile(ProfileData.token, ProfileData.id);
   }
 
   Future<void> _handleSignIn() async {
@@ -143,10 +186,10 @@ class SignInState extends State<SignIn> {
                   child: RaisedButton.icon(
                       color: Colors.red,
                       onPressed: _handleSignOut, icon: Icon(
-                    Icons.add_to_home_screen,
+                    Icons.cancel,
                     color: Colors.white,
                     size: 30.0,
-                  ), label: Text("Batalkan", style: TextStyle(fontSize: 16, color: Colors.white)))
+                  ), label: Text("Keluar", style: TextStyle(fontSize: 16, color: Colors.white)))
               ),
             ],
           )
