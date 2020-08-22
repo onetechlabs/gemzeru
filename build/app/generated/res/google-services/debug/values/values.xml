@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="default_web_client_id" translatable="false">183661027420-ov4ob220oc3jm76t25lohooebhn2rsu9.apps.googleusercontent.com</string>
+    <string name="firebase_database_url" translatable="false">https://gemzeru-e3c92.firebaseio.com</string>
+    <string name="gcm_defaultSenderId" translatable="false">183661027420</string>
+    <string name="google_api_key" translatable="false">AIzaSyAAU_G0UEyCTWLKIL2JfT51NT7MZe_xMMw</string>
+    <string name="google_app_id" translatable="false">1:183661027420:android:cf03f15af2ea6e396b0699</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyAAU_G0UEyCTWLKIL2JfT51NT7MZe_xMMw</string>
+    <string name="google_storage_bucket" translatable="false">gemzeru-e3c92.appspot.com</string>
+    <string name="project_id" translatable="false">gemzeru-e3c92</string>
+</resources>

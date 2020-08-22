@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "183661027420",
+    "firebase_url": "https://gemzeru-e3c92.firebaseio.com",
+    "project_id": "gemzeru-e3c92",
+    "storage_bucket": "gemzeru-e3c92.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:183661027420:android:cf03f15af2ea6e396b0699",
+        "android_client_info": {
+          "package_name": "com.onetechlabs.gemzeru"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "183661027420-ugab21m2u8ikk07g95hv9pm2p96d3hhq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.onetechlabs.gemzeru",
+            "certificate_hash": "756da5caeac02a5e0232ba9dd5eae180c4600dd6"
+          }
+        },
+        {
+          "client_id": "183661027420-ov4ob220oc3jm76t25lohooebhn2rsu9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAAU_G0UEyCTWLKIL2JfT51NT7MZe_xMMw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "183661027420-ov4ob220oc3jm76t25lohooebhn2rsu9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
