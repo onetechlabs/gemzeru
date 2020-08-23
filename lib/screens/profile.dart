@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:gemzeru/util/data.dart';
+import 'package:gemzeru/screens/edit_profile.dart';
 
 class Profile extends StatefulWidget {
   @override
@@ -17,6 +18,7 @@ class _ProfileState extends State<Profile> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           // Add your onPressed code here!
+          Navigator.push(context,MaterialPageRoute(builder: (context) => EditProfile()));
         },
         child: Icon(Icons.edit),
         backgroundColor: Colors.green,
