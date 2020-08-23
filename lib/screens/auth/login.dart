@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:gemzeru/screens/auth/google_sign_in.dart';
 import 'package:gemzeru/util/const.dart';
+import 'package:gemzeru/screens/auth/sign_up.dart';
 import 'package:gemzeru/screens/main_screen.dart';
 import 'package:gemzeru/util/data.dart';
 
@@ -70,14 +71,11 @@ class SignInState extends State<SignIn> {
         var dataAddress = jsonResponse['data']['record'][0]['address'];
         var dataPhone = jsonResponse['data']['record'][0]['phone'];
         var dataStatus_active = jsonResponse['data']['record'][0]['status_active'];
-        var dataCreatedat = jsonResponse['data']['record'][0]['created_at'];
         ProfileData.gameCode=dataGamecode.toString();
         ProfileData.fullName=dataFullname.toString();
         ProfileData.address=dataAddress.toString();
         ProfileData.phone=dataPhone.toString();
         ProfileData.status_active=dataStatus_active.toString();
-        ProfileData.registered_at=dataCreatedat.toString();
-        print(jsonResponse);
       } else {
         print('Request failed with status: ${response.statusCode}.');
       }
@@ -87,14 +85,19 @@ class SignInState extends State<SignIn> {
   Future<void> postLogin(String email) async{
     final response = await http.post(Constants.backend_api+"member-login", body: {'email': email,});
     setState(() {
-      if (response.statusCode == 200) {
-        var jsonResponse = convert.jsonDecode(response.body);
-        var dataId = jsonResponse['result']['user_id'];
-        var dataToken = jsonResponse['result']['token'];
-        ProfileData.id=dataId.toString();
-        ProfileData.token=dataToken.toString();
-      } else {
-        print('Request failed with status: ${response.statusCode}.');
+      var jsonResponse = convert.jsonDecode(response.body);
+      if(jsonResponse["message"]=="Email not Found !"){
+        ProfileData.emailGoogle=email;
+        Navigator.push(context,MaterialPageRoute(builder: (context) => SignUp()));
+      }else{
+        if (response.statusCode == 200) {
+          var dataId = jsonResponse['result']['user_id'];
+          var dataToken = jsonResponse['result']['token'];
+          ProfileData.id=dataId.toString();
+          ProfileData.token=dataToken.toString();
+        } else {
+          print('Request failed with status: ${response.statusCode}.');
+        }
       }
     });
   }

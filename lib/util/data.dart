@@ -49,5 +49,4 @@ class ProfileData {
   static String phone;
   static String token;
   static String status_active;
-  static String registered_at;
 }
