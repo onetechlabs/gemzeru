@@ -47,9 +47,20 @@ class _EditProfileState extends State<EditProfile> {
     return double.parse(s, (e) => null) != null;
   }
 
+  void _showAlert(BuildContext context, String title, String text_desc) {
+    showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text(title.toUpperCase()),
+          content: Text(text_desc),
+        )
+    );
+  }
+
   Future<void> postSaveProfile(String fullname, String phone, String address) async{
-    final response = await http.post(Constants.backend_api+"member/update/"+f_id, body: {'token': f_token,'gamecode': f_gamecode,'fullname': f_fullname,'address': f_alamat,'phone': f_kontak,'email': f_email,'status_active': f_status_active,});
+    final response = await http.post(Constants.backend_api+"member/update/"+f_id, body: {'token': f_token,'fullname': f_fullname,'address': f_alamat,'phone': f_kontak,'status_active': f_status_active,});
     setState(() {
+      var jsonResponse = convert.jsonDecode(response.body);
       if (response.statusCode == 200) {
         ProfileData.fullName=f_fullname;
         ProfileData.phone=f_kontak;
@@ -57,6 +68,15 @@ class _EditProfileState extends State<EditProfile> {
         Navigator.of(context).popUntil((route) => route.isFirst);
         print("Data Tersimpan");
       } else {
+        String err;
+        if(jsonResponse['message']["phone"]!=null){
+          err=jsonResponse['message']["phone"][0];
+        }else if(jsonResponse['message']["address"]!=null){
+          err=jsonResponse['message']["address"][0];
+        }if(jsonResponse['message']["fullname"]!=null){
+          err=jsonResponse['message']["fullname"][0];
+        }
+        _showAlert(context, "Perhatian", err.toString());
         print('Request failed with status: ${response.body}.');
       }
     });

@@ -28,6 +28,16 @@ class _SignUpState extends State<SignUp> {
     });
   }
 
+  void _showAlert(BuildContext context, String title, String text_desc) {
+    showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text(title.toUpperCase()),
+          content: Text(text_desc),
+        )
+    );
+  }
+
   bool isNumeric(String s) {
     if(s == null) {
       return false;
@@ -50,6 +60,15 @@ class _SignUpState extends State<SignUp> {
         Navigator.push(context,MaterialPageRoute(builder: (context) => MainScreen()));
         print("Data Tersimpan");
       } else {
+        String err;
+        if(jsonResponse['message']["phone"]!=null){
+          err=jsonResponse['message']["phone"][0];
+        }else if(jsonResponse['message']["address"]!=null){
+          err=jsonResponse['message']["address"][0];
+        }if(jsonResponse['message']["fullname"]!=null){
+          err=jsonResponse['message']["fullname"][0];
+        }
+        _showAlert(context, "Perhatian", err.toString());
         print('Request failed with status: ${response.body}.');
       }
     });
