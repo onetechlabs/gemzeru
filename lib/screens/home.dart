@@ -12,6 +12,7 @@ class _HomeState extends State<Home> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Permainan"),
+        automaticallyImplyLeading: false,
         centerTitle: true,
       ),
       body: ListView.builder(
