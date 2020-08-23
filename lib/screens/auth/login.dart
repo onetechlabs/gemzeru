@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'dart:math';
 import 'dart:convert' as convert;
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:http/http.dart' as http;
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:gemzeru/screens/auth/google_sign_in.dart';

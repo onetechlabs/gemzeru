@@ -1,5 +1,8 @@
+import 'dart:async';
 import 'dart:math';
-
+import 'dart:convert' as convert;
+import 'package:http/http.dart' as http;
+import 'package:gemzeru/util/const.dart';
 import 'package:flutter/material.dart';
 import 'package:gemzeru/util/data.dart';
 
@@ -11,6 +14,31 @@ class EditProfile extends StatefulWidget {
 class _EditProfileState extends State<EditProfile> {
   static Random random = Random();
   final _formKey = GlobalKey<FormState>();
+  String f_fullname;
+  String f_kontak;
+  String f_alamat;
+
+  String f_id;
+  String f_gamecode;
+  String f_token;
+  String f_email;
+  String f_status_active;
+  @override
+  void initState() {
+    super.initState();
+
+    setState(() {
+      f_fullname=ProfileData.fullName;
+      f_kontak=ProfileData.phone;
+      f_alamat=ProfileData.address;
+
+      f_id=ProfileData.id;
+      f_gamecode=ProfileData.gameCode;
+      f_token=ProfileData.token;
+      f_email=ProfileData.emailGoogle;
+      f_status_active=ProfileData.status_active;
+    });
+  }
 
   bool isNumeric(String s) {
     if(s == null) {
@@ -19,17 +47,35 @@ class _EditProfileState extends State<EditProfile> {
     return double.parse(s, (e) => null) != null;
   }
 
+  Future<void> postSaveProfile(String fullname, String phone, String address) async{
+    final response = await http.post(Constants.backend_api+"member/update/"+f_id, body: {'token': f_token,'gamecode': f_gamecode,'fullname': f_fullname,'address': f_alamat,'phone': f_kontak,'email': f_email,'status_active': f_status_active,});
+    setState(() {
+      if (response.statusCode == 200) {
+        ProfileData.fullName=f_fullname;
+        ProfileData.phone=f_kontak;
+        ProfileData.address=f_alamat;
+        Navigator.of(context).popUntil((route) => route.isFirst);
+        print("Data Tersimpan");
+      } else {
+        print('Request failed with status: ${response.body}.');
+      }
+    });
+  }
+
+  Future<void> _saveData() async{
+    if (_formKey.currentState.validate()) {
+      await postSaveProfile(f_fullname,f_kontak,f_alamat);
+      print("Data Tersimpan "+f_fullname+" / "+f_kontak+" / "+f_alamat);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           // Add your onPressed code here!
-          if (_formKey.currentState.validate()) {
-            // If the form is valid, display a Snackbar.
-            Scaffold.of(context)
-                .showSnackBar(SnackBar(content: Text('Processing Data')));
-          }
+          _saveData();
         },
         child: Icon(Icons.save),
         backgroundColor: Colors.green,
@@ -133,6 +179,11 @@ class _EditProfileState extends State<EditProfile> {
                                                     fontSize: 20.0,
                                                 ),
                                                 initialValue: ProfileData.fullName,
+                                                onChanged: (value)=>{
+                                                  setState((){
+                                                    f_fullname=value.toString();
+                                                  }),
+                                                },
                                                 validator: (value) {
                                                   if (value.isEmpty) {
                                                     return 'Mohon untuk memasukan nama yang valid!';
@@ -179,6 +230,11 @@ class _EditProfileState extends State<EditProfile> {
                                                   fontSize: 20.0,
                                                 ),
                                                 initialValue: ProfileData.phone,
+                                                onChanged: (value)=>{
+                                                  setState((){
+                                                    f_kontak=value.toString();
+                                                  }),
+                                                },
                                                 validator: (value) {
                                                   if (value.isEmpty) {
                                                     return 'Mohon untuk memasukan nomor yang valid!';
@@ -228,6 +284,11 @@ class _EditProfileState extends State<EditProfile> {
                                                   fontSize: 20.0,
                                                 ),
                                                 initialValue: ProfileData.address,
+                                                onChanged: (value)=>{
+                                                  setState((){
+                                                    f_alamat=value.toString();
+                                                  }),
+                                                },
                                                 validator: (value) {
                                                   if (value.isEmpty) {
                                                     return 'Mohon untuk memasukan nama yang valid!';
@@ -281,7 +342,7 @@ class _EditProfileState extends State<EditProfile> {
                   if(text =="Kembali"){
                     Navigator.pop(context);
                   }else if(text =="Simpan Data"){
-                    print("data tersimpan");
+                    _saveData();
                   }
                 },
                 child: Text(
