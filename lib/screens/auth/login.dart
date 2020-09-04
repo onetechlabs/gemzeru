@@ -24,6 +24,8 @@ class SignInState extends State<SignIn> {
     'slider1.png',
     'slider2.png',
   ];
+  String tokenUser="";
+  String idUser="";
 
   final CarouselSlider autoPlayImage = CarouselSlider(
     items: imgSlider.map((fileImage) {
@@ -57,59 +59,70 @@ class SignInState extends State<SignIn> {
       });
 
       saveData(_currentUser.id,_currentUser.email, _currentUser.displayName, _currentUser.photoUrl);
+
     });
     _googleSignIn.signInSilently();
   }
 
   Future<void> postProfile(String token, String id) async{
     final response = await http.post(Constants.backend_api+"member/show/"+id, body: {'token': token,});
-    setState(() {
+
       if (response.statusCode == 200) {
-        var jsonResponse = convert.jsonDecode(response.body);
-        var dataGamecode = jsonResponse['data']['record'][0]['gamecode'];
-        var dataFullname = jsonResponse['data']['record'][0]['fullname'];
-        var dataAddress = jsonResponse['data']['record'][0]['address'];
-        var dataPhone = jsonResponse['data']['record'][0]['phone'];
-        var dataStatus_active = jsonResponse['data']['record'][0]['status_active'];
-        ProfileData.gameCode=dataGamecode.toString();
-        ProfileData.fullName=dataFullname.toString();
-        ProfileData.address=dataAddress.toString();
-        ProfileData.phone=dataPhone.toString();
-        ProfileData.status_active=dataStatus_active.toString();
+        setState(() {
+          var jsonResponse = convert.jsonDecode(response.body);
+          var dataGamecode = jsonResponse['data']['record'][0]['gamecode'];
+          var dataFullname = jsonResponse['data']['record'][0]['fullname'];
+          var dataAddress = jsonResponse['data']['record'][0]['address'];
+          var dataPhone = jsonResponse['data']['record'][0]['phone'];
+          var dataStatus_active = jsonResponse['data']['record'][0]['status_active'];
+          ProfileData.gameCode = dataGamecode.toString();
+          ProfileData.fullName = dataFullname.toString();
+          ProfileData.address = dataAddress.toString();
+          ProfileData.phone = dataPhone.toString();
+          ProfileData.status_active = dataStatus_active.toString();
+
+        });
+        print("post profile success");
       } else {
         print('Request failed with status: ${response.statusCode}.');
       }
-    });
   }
 
   Future<void> postLogin(String email) async{
     final response = await http.post(Constants.backend_api+"member-login", body: {'email': email,});
-    setState(() {
       var jsonResponse = convert.jsonDecode(response.body);
       if(jsonResponse["message"]=="Email not Found !"){
-        ProfileData.emailGoogle=email;
+        setState(() {
+          ProfileData.emailGoogle = email;
+        });
         Navigator.push(context,MaterialPageRoute(builder: (context) => SignUp()));
       }else{
         if (response.statusCode == 200) {
-          var dataId = jsonResponse['result']['user_id'];
-          var dataToken = jsonResponse['result']['token'];
-          ProfileData.id=dataId.toString();
-          ProfileData.token=dataToken.toString();
+          var dataId = jsonResponse['result']['user_id'].toString();
+          var dataToken = jsonResponse['result']['token'].toString();
+          setState(() {
+            ProfileData.id = dataId.toString();
+            ProfileData.token = dataToken.toString();
+          });
+          tokenUser=dataToken;
+          idUser=dataId;
+          await postProfile(tokenUser, idUser);
+          print("post profile");
         } else {
           print('Request failed with status: ${response.statusCode}.');
         }
       }
-    });
   }
 
   Future<void> saveData(id_g,em_g,dn_g,pu_g) async{
-    ProfileData.idGoogle=_currentUser.id;
-    ProfileData.photourlGoogle=_currentUser.photoUrl;
-    ProfileData.emailGoogle=_currentUser.email;
-    ProfileData.displaynameGoogle=_currentUser.displayName;
-
+    setState(() {
+      ProfileData.idGoogle = _currentUser.id;
+      ProfileData.photourlGoogle = _currentUser.photoUrl;
+      ProfileData.emailGoogle = _currentUser.email;
+      ProfileData.displaynameGoogle = _currentUser.displayName;
+    });
     await postLogin(_currentUser.email);
-    await postProfile(ProfileData.token, ProfileData.id);
+    print("post login");
   }
 
   Future<void> _handleSignIn() async {
@@ -123,6 +136,7 @@ class SignInState extends State<SignIn> {
   Future<void> _handleSignOut() => _googleSignIn.disconnect();
 
   Widget _buildBody() {
+
     if (_currentUser != null) {
       return Column(
         children: <Widget>[

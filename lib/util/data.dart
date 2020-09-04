@@ -26,7 +26,7 @@ List gameName = [
   "Game 4",
 ];
 
-List posts = List.generate(
+/*List posts = List.generate(
     13,
     (index) => {
           "version": "1.0",
@@ -34,7 +34,7 @@ List posts = List.generate(
           "category": "Undefined Kategori",
           "gameName": "${gameName[random.nextInt(3)]}",
           "desc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sed nibh at turpis tincidunt sodales. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Curabitur a dignissim lectus. Duis tempor velit ut feugiat sollicitudin."
-        });
+        });*/
 
 
 class ProfileData {

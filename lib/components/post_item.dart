@@ -3,18 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 class PostItem extends StatefulWidget {
   final String version;
-  final String gameCover;
+  final String cover_image;
   final String category;
-  final String gameName;
-  final String desc;
+  final String title;
+  final String description;
 
   PostItem({
     Key key,
     @required this.version,
-    @required this.gameCover,
+    @required this.cover_image,
     @required this.category,
-    @required this.gameName,
-    @required this.desc,
+    @required this.title,
+    @required this.description,
 
   }) : super(key: key);
   @override
@@ -32,7 +32,7 @@ class _PostItemState extends State<PostItem> {
           children: <Widget>[
             ListTile(
               title: Text(
-                "${widget.gameName}",
+                "${widget.title}",
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                 ),
@@ -56,8 +56,8 @@ class _PostItemState extends State<PostItem> {
                         Row(
                           children: <Widget>[
                             CircleAvatar(
-                              backgroundImage: AssetImage(
-                                "${widget.gameCover}",
+                              backgroundImage: NetworkImage(
+                                "${widget.cover_image}",
                               ),
                             ),
                             Align(
@@ -80,7 +80,7 @@ class _PostItemState extends State<PostItem> {
                             padding: EdgeInsets.only(top:15.0, bottom:15.0, left:5.0, right:5.0),
                             child: Container(
                               child: Text(
-                                "${widget.desc}",
+                                "${widget.description}",
                                 style: TextStyle(
                                   fontSize: 18,
                                 ),

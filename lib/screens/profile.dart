@@ -3,19 +3,52 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:flutter/material.dart';
 import 'package:gemzeru/util/data.dart';
 import 'package:gemzeru/screens/edit_profile.dart';
-
+import 'package:http/http.dart' as http;
+import 'dart:async';
+import 'dart:convert' as convert;
+import 'package:gemzeru/util/const.dart';
 class Profile extends StatefulWidget {
   @override
   _ProfileState createState() => _ProfileState();
 }
 
 class _ProfileState extends State<Profile> {
+  int totd = 0;
   static Random random = Random();
   bool dialVisible = true;
   void setDialVisible(bool value) {
     setState(() {
       dialVisible = value;
     });
+  }
+  void initState() {
+    super.initState();
+    checkGold(ProfileData.token.toString(),ProfileData.gameCode.toString());
+  }
+
+  Future<void> addGold(String token, String gamecode, String a_gold) async{
+    final response = await http.post(Constants.backend_api+"payment-instrument/add/"+a_gold+"/gold/to/"+gamecode, body: {'token': token,'description':'Top Up'});
+
+    if (response.statusCode == 200) {
+      setState(() {
+        totd = totd+int.parse(a_gold);
+      });
+    } else {
+      print('Request failed with status: ${response.statusCode}.');
+    }
+  }
+
+  Future<void> checkGold(String token, String gamecode) async{
+    final response = await http.post(Constants.backend_api+"payment-instruments/showby-gamecode/"+gamecode+"/showby-payment-instrument/gold", body: {'token': token,'is_used':'no'});
+
+    if (response.statusCode == 200) {
+      setState(() {
+        var jsonResponse = convert.jsonDecode(response.body);
+        totd = jsonResponse['data']['total_data'];
+      });
+    } else {
+      print('Request failed with status: ${response.statusCode}.');
+    }
   }
 
   @override
@@ -45,6 +78,15 @@ class _ProfileState extends State<Profile> {
         elevation: 8.0,
         shape: CircleBorder(),
         children: [
+          SpeedDialChild(
+              child: Icon(Icons.refresh),
+              backgroundColor: Colors.blueGrey,
+              label: 'Check Gold',
+              labelStyle: TextStyle(fontSize: 18.0),
+              onTap: () => {
+                checkGold(ProfileData.token.toString(),ProfileData.gameCode.toString()),
+              }
+          ),
           SpeedDialChild(
               child: Icon(Icons.edit),
               backgroundColor: Colors.green,
@@ -136,7 +178,7 @@ class _ProfileState extends State<Profile> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    _buildCategory("Koin Tersisa", random.nextInt(500).toString()),
+                    _buildCategory("Gold", totd.toString()),
                     _buildCategory("Game Code", ProfileData.gameCode),
                     _buildCategory("Status Aktif", ProfileData.status_active.toUpperCase()),
                   ],
@@ -221,16 +263,6 @@ class _ProfileState extends State<Profile> {
                   ],
                 ),
               ),
-              SizedBox(height: 40),
-              Text("Informasi Transaksi",
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                )),
-              _listTransaction("Koin Masuk", "22 Ags 2020, 07:00 WIB","Anda Menambahkan ${random.nextInt(10).toString()} Koin"),
-              _listTransaction("Koin keluar", "22 Ags 2020, 11:00 WIB","Anda Mengeluarkan ${random.nextInt(10).toString()} Koin"),
-              _listTransaction("Koin Keluar", "22 Ags 2020, 14:00 WIB","Anda Mengeluarkan ${random.nextInt(10).toString()} Koin"),
-
             ],
           ),
         ),
@@ -253,7 +285,9 @@ class _ProfileState extends State<Profile> {
                 color: Colors.white,
                 textColor: Colors.red,
                 padding: EdgeInsets.all(10.0),
-                onPressed: () {},
+                onPressed: () {
+                  addGold(ProfileData.token,ProfileData.gameCode,qtyCoin.toString());
+                },
                 child: Text(
                   "Beli ${qtyCoin} Koin".toUpperCase(),
                   style: TextStyle(
