@@ -1,27 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/home/onetechlabs/Public/Programming-Projects/Android/gemzeru_mobileapp/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-uz/values-uz.xml",
+            "outputFile": "/Users/onetechlabs/Public/Projects/MobileApps/gemzeru/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-uz/values-uz.xml",
             "map": [
                 {
-                    "source": "/home/onetechlabs/.gradle/caches/transforms-2/files-2.1/8ba0bc12b45efdcd0b23be40e80df5f6/jetified-play-services-basement-17.0.0/res/values-uz/values.xml",
-                    "from": {
-                        "startLines": "4",
-                        "startColumns": "0",
-                        "startOffsets": "247",
-                        "endColumns": "208",
-                        "endOffsets": "455"
-                    },
-                    "to": {
-                        "startLines": "10",
-                        "startColumns": "4",
-                        "startOffsets": "1260",
-                        "endColumns": "208",
-                        "endOffsets": "1464"
-                    }
-                },
-                {
-                    "source": "/home/onetechlabs/.gradle/caches/transforms-2/files-2.1/382873de78cc393125705e32f6d2c527/jetified-play-services-base-16.0.1/res/values-uz/values.xml",
+                    "source": "/Users/onetechlabs/.gradle/caches/transforms-1/files-1.1/play-services-base-17.0.0.aar/9c4441ce783c73eb2ec276f8fe8b9577/res/values-uz/values.xml",
                     "from": {
                         "startLines": "4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20",
                         "startColumns": "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
@@ -38,7 +21,24 @@
                     }
                 },
                 {
-                    "source": "/home/onetechlabs/.gradle/caches/transforms-2/files-2.1/e6856c7cff7219f18cbbcc5d8d7cecec/core-1.1.0/res/values-uz/values-uz.xml",
+                    "source": "/Users/onetechlabs/.gradle/caches/transforms-1/files-1.1/play-services-basement-17.0.0.aar/0d3eeeddd93f855aaf71dfdfcd457c7d/res/values-uz/values.xml",
+                    "from": {
+                        "startLines": "4",
+                        "startColumns": "0",
+                        "startOffsets": "247",
+                        "endColumns": "208",
+                        "endOffsets": "455"
+                    },
+                    "to": {
+                        "startLines": "10",
+                        "startColumns": "4",
+                        "startOffsets": "1260",
+                        "endColumns": "208",
+                        "endOffsets": "1464"
+                    }
+                },
+                {
+                    "source": "/Users/onetechlabs/.gradle/caches/transforms-1/files-1.1/core-1.1.0.aar/2f8cb80f2450fbb22499cacb77ebe340/res/values-uz/values-uz.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",

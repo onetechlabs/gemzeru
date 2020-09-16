@@ -19,10 +19,14 @@ class _SignUpState extends State<SignUp> {
   String f_kontak;
   String f_alamat;
   String f_email;
+
+  final _fullnameController = TextEditingController();
+  final _phoneController = TextEditingController();
+  final _addressController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
-
     setState(() {
       f_email=ProfileData.emailGoogle;
     });
@@ -38,6 +42,14 @@ class _SignUpState extends State<SignUp> {
     );
   }
 
+  @override
+  void dispose() {
+    _fullnameController.dispose();
+    _phoneController.dispose();
+    _addressController.dispose();
+    super.dispose();
+  }
+
   bool isNumeric(String s) {
     if(s == null) {
       return false;
@@ -46,14 +58,16 @@ class _SignUpState extends State<SignUp> {
   }
 
   Future<void> postSaveProfile(String fullname, String phone, String address, String email) async{
-    final response = await http.post(Constants.backend_api+"member-create", body: {'fullname': f_fullname,'address': f_alamat,'phone': f_kontak,'email': f_email,});
+    final response = await http.post(Constants.backend_api+"member-create", body: {'fullname': fullname,'address': address,'phone': phone,'email': f_email,});
+    if (!mounted) return;
     setState(() {
       var jsonResponse = convert.jsonDecode(response.body);
       if (response.statusCode == 200) {
+
         ProfileData.gameCode=jsonResponse['result']['gamecode'].toString();
-        ProfileData.fullName=f_fullname.toString();
-        ProfileData.address=f_alamat.toString();
-        ProfileData.phone=f_kontak.toString();
+        ProfileData.fullName=fullname.toString();
+        ProfileData.address=address.toString();
+        ProfileData.phone=phone.toString();
         ProfileData.id=jsonResponse['result']['user_id'].toString();
         ProfileData.token=jsonResponse['result']['token'].toString();
         ProfileData.status_active=jsonResponse['result']['status_active'].toString();
@@ -76,8 +90,8 @@ class _SignUpState extends State<SignUp> {
 
   Future<void> _saveData() async{
     if (_formKey.currentState.validate()) {
-      await postSaveProfile(f_fullname,f_kontak,f_alamat,f_email);
-      print("Data Tersimpan "+f_fullname+" / "+f_kontak+" / "+f_alamat);
+      await postSaveProfile(_fullnameController.text,_phoneController.text,_addressController.text,f_email);
+      print("Data Tersimpan "+"${_fullnameController.text}"+" / "+"${_phoneController.text}"+" / "+"${_addressController.text}"+"/"+f_email);
     }
   }
 
@@ -190,11 +204,7 @@ class _SignUpState extends State<SignUp> {
                                                 style: TextStyle(
                                                     fontSize: 20.0,
                                                 ),
-                                                onChanged: (value)=>{
-                                                  setState((){
-                                                    f_fullname=value.toString();
-                                                  }),
-                                                },
+                                                controller: _fullnameController,
                                                 validator: (value) {
                                                   if (value.isEmpty) {
                                                     return 'Mohon untuk memasukan nama yang valid!';
@@ -240,11 +250,7 @@ class _SignUpState extends State<SignUp> {
                                                 style: TextStyle(
                                                   fontSize: 20.0,
                                                 ),
-                                                onChanged: (value)=>{
-                                                  setState((){
-                                                    f_kontak=value.toString();
-                                                  }),
-                                                },
+                                                controller: _phoneController,
                                                 validator: (value) {
                                                   if (value.isEmpty) {
                                                     return 'Mohon untuk memasukan nomor yang valid!';
@@ -293,16 +299,12 @@ class _SignUpState extends State<SignUp> {
                                                 style: TextStyle(
                                                   fontSize: 20.0,
                                                 ),
-                                                onChanged: (value)=>{
-                                                  setState((){
-                                                    f_alamat=value.toString();
-                                                  }),
-                                                },
+                                                controller: _addressController,
                                                 validator: (value) {
                                                   if (value.isEmpty) {
                                                     return 'Mohon untuk memasukan nama yang valid!';
-                                                  } else if (value.length < 10) {
-                                                    return 'Mohon untuk menuliskan minimal 10 huruf atau angka!';
+                                                  } else if (value.length < 12) {
+                                                    return 'Mohon untuk menuliskan minimal 12 huruf atau angka!';
                                                   } else if (value.length > 100) {
                                                     return 'Mohon untuk menuliskan maksimal 100 huruf atau angka!';
                                                   }

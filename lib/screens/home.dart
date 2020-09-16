@@ -44,6 +44,7 @@ class _HomeState extends State<Home> {
     final response = await http.post(Constants.backend_api+"games/", body: {'token': token, 'page':page});
 
     if (response.statusCode == 200) {
+      if (!mounted) return;
       setState(() {
         var jsonResponse = convert.jsonDecode(response.body);
         var datas = jsonResponse['data']['records'];

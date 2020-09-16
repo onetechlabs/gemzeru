@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>183661027420-pvl8nef62ugbsb225v5n94ffrf5ueg9k.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.183661027420-pvl8nef62ugbsb225v5n94ffrf5ueg9k</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>183661027420-ttln65t6843kc53hvhlu1cnm70nkennm.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyB8ZTrjszeNqHuoVVzCyTlBt1lAJEysKbw</string>
+	<key>GCM_SENDER_ID</key>
+	<string>183661027420</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.onetechlabs.gemzeru</string>
+	<key>PROJECT_ID</key>
+	<string>gemzeru-e3c92</string>
+	<key>STORAGE_BUCKET</key>
+	<string>gemzeru-e3c92.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:183661027420:ios:912b729f634ad33c6b0699</string>
+	<key>DATABASE_URL</key>
+	<string>https://gemzeru-e3c92.firebaseio.com</string>
+</dict>
+</plist>

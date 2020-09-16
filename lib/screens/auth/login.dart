@@ -91,7 +91,7 @@ class SignInState extends State<SignIn> {
   Future<void> postLogin(String email) async{
     final response = await http.post(Constants.backend_api+"member-login", body: {'email': email,});
       var jsonResponse = convert.jsonDecode(response.body);
-      if(jsonResponse["message"]=="Email not Found !"){
+      if(jsonResponse["message"]=="Email / Game Code not Found !"){
         setState(() {
           ProfileData.emailGoogle = email;
         });

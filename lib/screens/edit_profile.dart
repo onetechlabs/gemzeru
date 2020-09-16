@@ -23,6 +23,11 @@ class _EditProfileState extends State<EditProfile> {
   String f_token;
   String f_email;
   String f_status_active;
+
+  final _fullnameController = TextEditingController();
+  final _phoneController = TextEditingController();
+  final _addressController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
@@ -38,6 +43,18 @@ class _EditProfileState extends State<EditProfile> {
       f_email=ProfileData.emailGoogle;
       f_status_active=ProfileData.status_active;
     });
+
+    _fullnameController.text=f_fullname;
+    _phoneController.text=f_kontak;
+    _addressController.text=f_alamat;
+  }
+
+  @override
+  void dispose() {
+    _fullnameController.dispose();
+    _phoneController.dispose();
+    _addressController.dispose();
+    super.dispose();
   }
 
   bool isNumeric(String s) {
@@ -58,13 +75,14 @@ class _EditProfileState extends State<EditProfile> {
   }
 
   Future<void> postSaveProfile(String fullname, String phone, String address) async{
-    final response = await http.post(Constants.backend_api+"member/update/"+f_id, body: {'token': f_token,'fullname': f_fullname,'address': f_alamat,'phone': f_kontak,'status_active': f_status_active,});
+    final response = await http.post(Constants.backend_api+"member/update/"+f_id, body: {'token': f_token,'fullname': fullname,'address': address,'phone': phone,'status_active': "active",});
+    if (!mounted) return;
     setState(() {
       var jsonResponse = convert.jsonDecode(response.body);
       if (response.statusCode == 200) {
-        ProfileData.fullName=f_fullname;
-        ProfileData.phone=f_kontak;
-        ProfileData.address=f_alamat;
+        ProfileData.fullName="${_fullnameController.text}";
+        ProfileData.phone="${_phoneController.text}";
+        ProfileData.address="${_addressController.text}";
         Navigator.of(context).popUntil((route) => route.isFirst);
         print("Data Tersimpan");
       } else {
@@ -84,13 +102,16 @@ class _EditProfileState extends State<EditProfile> {
 
   Future<void> _saveData() async{
     if (_formKey.currentState.validate()) {
-      await postSaveProfile(f_fullname,f_kontak,f_alamat);
-      print("Data Tersimpan "+f_fullname+" / "+f_kontak+" / "+f_alamat);
+      await postSaveProfile("${_fullnameController.text}","${_phoneController.text}","${_addressController.text}");
+      print("Data Tersimpan "+"${_fullnameController.text}"+" / "+"${_phoneController.text}"+" / "+"${_addressController.text}");
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    TextEditingController fullnameController = TextEditingController()..text = f_fullname;
+    TextEditingController phoneController = TextEditingController()..text = f_kontak;
+    TextEditingController addressController = TextEditingController()..text = f_alamat;
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -198,12 +219,7 @@ class _EditProfileState extends State<EditProfile> {
                                                 style: TextStyle(
                                                     fontSize: 20.0,
                                                 ),
-                                                initialValue: ProfileData.fullName,
-                                                onChanged: (value)=>{
-                                                  setState((){
-                                                    f_fullname=value.toString();
-                                                  }),
-                                                },
+                                                controller: _fullnameController,
                                                 validator: (value) {
                                                   if (value.isEmpty) {
                                                     return 'Mohon untuk memasukan nama yang valid!';
@@ -249,12 +265,7 @@ class _EditProfileState extends State<EditProfile> {
                                                 style: TextStyle(
                                                   fontSize: 20.0,
                                                 ),
-                                                initialValue: ProfileData.phone,
-                                                onChanged: (value)=>{
-                                                  setState((){
-                                                    f_kontak=value.toString();
-                                                  }),
-                                                },
+                                                controller: _phoneController,
                                                 validator: (value) {
                                                   if (value.isEmpty) {
                                                     return 'Mohon untuk memasukan nomor yang valid!';
@@ -303,12 +314,7 @@ class _EditProfileState extends State<EditProfile> {
                                                 style: TextStyle(
                                                   fontSize: 20.0,
                                                 ),
-                                                initialValue: ProfileData.address,
-                                                onChanged: (value)=>{
-                                                  setState((){
-                                                    f_alamat=value.toString();
-                                                  }),
-                                                },
+                                                controller: _addressController,
                                                 validator: (value) {
                                                   if (value.isEmpty) {
                                                     return 'Mohon untuk memasukan nama yang valid!';

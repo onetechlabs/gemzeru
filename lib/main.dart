@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:gemzeru/util/const.dart';
 import 'package:gemzeru/util/theme_config.dart';
 
@@ -22,8 +21,8 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: Constants.appName,
-      theme: themeData(ThemeConfig.lightTheme),
-      darkTheme: themeData(ThemeConfig.darkTheme),
+      theme: ThemeConfig.lightTheme,
+      darkTheme: ThemeConfig.darkTheme,
       home: Splash(),
       routes: <String, WidgetBuilder> {
         '/splash': (BuildContext context) => new Splash(),
@@ -34,11 +33,4 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
-  ThemeData themeData(ThemeData theme) {
-    return theme.copyWith(
-      textTheme: GoogleFonts.sourceSansProTextTheme(
-        theme.textTheme,
-      ),
-    );
-  }
 }

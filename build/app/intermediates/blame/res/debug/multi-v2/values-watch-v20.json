@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/home/onetechlabs/Public/Programming-Projects/Android/gemzeru_mobileapp/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-watch-v20/values-watch-v20.xml",
+            "outputFile": "/Users/onetechlabs/Public/Projects/MobileApps/gemzeru/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-watch-v20/values-watch-v20.xml",
             "map": [
                 {
-                    "source": "/home/onetechlabs/.gradle/caches/transforms-2/files-2.1/b7cf0a1ad60fd806be01e892d612b0b8/jetified-play-services-auth-16.0.1/res/values-watch-v20/values.xml",
+                    "source": "/Users/onetechlabs/.gradle/caches/transforms-1/files-1.1/play-services-auth-16.0.1.aar/75f0f241ed1304f842def31b6133ecb5/res/values-watch-v20/values.xml",
                     "from": {
                         "startLines": "4,5,6,7,8,9,10,11",
                         "startColumns": "0,0,0,0,0,0,0,0",

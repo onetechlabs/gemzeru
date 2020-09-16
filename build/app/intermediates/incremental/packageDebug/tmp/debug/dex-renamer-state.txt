@@ -1,4 +1,4 @@
-#Fri Sep 04 15:18:08 WIB 2020
-base.0=/home/onetechlabs/Public/Programming-Projects/Android/gemzeru_mobileapp/build/app/intermediates/dex/debug/mergeDexDebug/out/classes.dex
+#Wed Sep 16 10:41:43 WIB 2020
+base.0=/Users/onetechlabs/Public/Projects/MobileApps/gemzeru/build/app/intermediates/transforms/dexMerger/debug/0
 path.0=classes.dex
 renamed.0=classes.dex
